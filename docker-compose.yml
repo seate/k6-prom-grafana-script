@@ -19,7 +19,7 @@ services:
       - --enable-feature=native-histograms
       - --config.file=/etc/prometheus/prometheus.yml
   k6:
-    image: grafana/k6
+    image: kimsiwoo/grafana-redis-k6:latest
     volumes:
       - ./k6-scripts:/scripts
     command: run -o experimental-prometheus-rw /scripts/stress.js
@@ -30,3 +30,9 @@ services:
       - "host.docker.internal:host-gateway"
     depends_on:
       - prometheus
+      - redis
+  
+  redis:
+    image: redis:latest
+    ports:
+      - 7379:6379
